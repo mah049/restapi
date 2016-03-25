@@ -1,22 +1,27 @@
 //dependencies
 var express = require('express');
-var router = express.Router();
 var path = require('path');
 var Product = require('../models/product');
 var fs = require('fs')
 var uuid = require('node-uuid');
 var request = require('request');
 
+//express framework router
+var router = express.Router();
 
+//if the user goes to localhost:3000/api
 router.get('/', function(req, res) {
+	//sends the page that displays all the api functions
 	res.sendFile('index.html',{ root: path.join(__dirname, '../views') });
 }); 
 
+//redirect for form submission
 router.post('/submission', function (req, res) {
 	var url = req.body;
+	//generate a random uuid for the job
 	var jobID = uuid.v1();
-	console.log(url);
 	var holder = url.url;
+	//gets the html of the url
 	request(holder, function(error, response, html){
 		if (!error && response.statusCode == 200) { 
 			Product.addURL(url,jobID, html, function(err, url){
@@ -36,6 +41,7 @@ router.post('/submission', function (req, res) {
 
 });
 
+//search the database by job
 router.post('/joblookup', function(req, res){
 	var id = req.body;
 	Product.getURLByJobID(id, function(err, url){
@@ -55,6 +61,7 @@ router.post('/joblookup', function(req, res){
 	});
 });
 
+//search the database by name
 router.post('/namelookup', function(req, res){
 	var id = req.body;
 	var i;
@@ -75,6 +82,7 @@ router.post('/namelookup', function(req, res){
 	});
 });
 
+//search the database by url
 router.post('/urllookup', function(req, res){
 	var id = req.body;
 	Product.getURLByJobID(id, function(err, url){
@@ -93,20 +101,9 @@ router.post('/urllookup', function(req, res){
 	});
 });
 
-router.get('/test',function ( req, res) {
-	var holder = req.body;
-	fs.readFile(path.join(__dirname,'../views/index.html'), function (err, html) {
-    	if (err) {	
-        	throw err; 
-        	return;
-    	}       
-        res.writeHeader(200, {"Content-Type": "text/plain"});  
-        res.write(html);  
-        res.end();  
-    })
-});
-
+//HTTP Verbs utilized in the REST api
 Product.methods(['get','put','post','delete']);
+//restfulapi
 Product.register(router,'/jobid');
 
 module.exports = router;

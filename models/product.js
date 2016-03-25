@@ -1,5 +1,4 @@
 // dependencies
-
 var restful = require('node-restful');
 var mongoose = restful.mongoose;
 
@@ -8,8 +7,7 @@ var urlSchema = new mongoose.Schema({
 	name: String,
 	url: String,
 	jobID : String,
-	html: String,
-	done: Boolean
+	html: String
 });
 
 //return model
