@@ -28,6 +28,7 @@ router.post('/submission', function (req, res) {
 				if(err){
 					throw err;
 				}
+			//parsing the json for user view
 			var string = 'URL Successfully Submitted: <br>'+ req.body.url+"<br><br>" + 'JobID is: <br>' + jobID +
 			'<br><br>'
 			var html= "<form action='http://127.0.0.1:3000/api/''>"+
@@ -45,15 +46,17 @@ router.post('/submission', function (req, res) {
 router.post('/joblookup', function(req, res){
 	var id = req.body;
 	Product.getURLByJobID(id, function(err, url){
-		console.log(url);
+		//checking for valid input in the form
 		if(err||Object.keys(url).length == 0 || JSON.stringify(url) == JSON.stringify({})){
 			res.status(404).send('ERROR: ID Not Found')
 			return;
 		}
 		var holder = url[0].url
+		//getting the html of the url
 		request(holder, function(error, response, html){
   			if (!error && response.statusCode == 200) {
-        		res.writeHeader(200, {"Content-Type": "text/plain"});      			
+        		res.writeHeader(200, {"Content-Type": "text/plain"});   
+        		//displaying the html of the url   			
     			res.write(html);
     			res.end();
   			}
@@ -67,15 +70,18 @@ router.post('/namelookup', function(req, res){
 	var i;
 	console.log(id);
 	Product.getURLByJobID(id, function(err, url){
+		//checking for valid input in the form
 		if(err||Object.keys(url).length == 0 || JSON.stringify(url) == JSON.stringify({})){
 			res.status(404).send('ERROR: Name Not Found')
 			return;
 		}
 		var string = ''
+		//checking to see if more than one tied to the name and if there is it shows all jobID's
 		var num = Object.keys(url).length;
 		for( i =0; i<num; i++){
 			string += url[i].jobID+'<br>';
 		}
+		//parsing the data for user view
 		string += "<form action='http://127.0.0.1:3000/api/''>"+
     		"<input type='submit' value='Back'></form>"
 		res.send('These are the jobID\'s associated with '+ id.name + ':<br>'+ string); 
@@ -86,15 +92,18 @@ router.post('/namelookup', function(req, res){
 router.post('/urllookup', function(req, res){
 	var id = req.body;
 	Product.getURLByJobID(id, function(err, url){
+		//checking for valid input in the form
 		if(err||Object.keys(url).length == 0 || JSON.stringify(url) == JSON.stringify({})){
 			res.status(404).send('ERROR: URL Not Found')
 			return;
 		}
 		var string = ''
+		//checking to see if more than one tied to the name and if there is it shows all jobID's
 		var num = Object.keys(url).length;
 		for( i =0; i<num; i++){
 			string += url[i].jobID+'<br>';
 		}
+		//parsing the data for user view
 		string += "<form action='http://127.0.0.1:3000/api/''>"+
     		"<input type='submit' value='Back'></form>"
 		res.send("These are the jobID\'s associated with "+ id.url +':<br>'+string);
@@ -103,6 +112,7 @@ router.post('/urllookup', function(req, res){
 
 //HTTP Verbs utilized in the REST api
 Product.methods(['get','put','post','delete']);
+
 //restfulapi
 Product.register(router,'/jobid');
 

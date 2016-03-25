@@ -1,3 +1,8 @@
+/* Mark Huang
+ * 3/24/2016
+ * Massdrop Coding Challenge
+ */
+ 
 // dependencies
 var restful = require('node-restful');
 var mongoose = restful.mongoose;
