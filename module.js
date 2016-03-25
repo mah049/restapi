@@ -1,3 +1,8 @@
+/* Mark Huang
+ * 3/24/2016
+ * Massdrop Coding Challenge
+ */
+ 
 //dependencies
 var express = require ('express');
 var mongoose = require ('mongoose');

@@ -1,3 +1,8 @@
+/* Mark Huang
+ * 3/24/2016
+ * Massdrop Coding Challenge
+ */
+
 //dependencies
 var express = require('express');
 var path = require('path');
@@ -48,7 +53,8 @@ router.post('/joblookup', function(req, res){
 	Product.getURLByJobID(id, function(err, url){
 		//checking for valid input in the form
 		if(err||Object.keys(url).length == 0 || JSON.stringify(url) == JSON.stringify({})){
-			res.status(404).send('ERROR: ID Not Found')
+			res.status(404).send('ERROR: ID Not Found'+"<form action='http://127.0.0.1:3000/api/''>"+
+    		"<input type='submit' value='Back'></form>")
 			return;
 		}
 		var holder = url[0].url
@@ -72,7 +78,8 @@ router.post('/namelookup', function(req, res){
 	Product.getURLByJobID(id, function(err, url){
 		//checking for valid input in the form
 		if(err||Object.keys(url).length == 0 || JSON.stringify(url) == JSON.stringify({})){
-			res.status(404).send('ERROR: Name Not Found')
+			res.status(404).send('ERROR: Name Not Found'+"<form action='http://127.0.0.1:3000/api/''>"+
+    		"<input type='submit' value='Back'></form>")
 			return;
 		}
 		var string = ''
@@ -94,7 +101,8 @@ router.post('/urllookup', function(req, res){
 	Product.getURLByJobID(id, function(err, url){
 		//checking for valid input in the form
 		if(err||Object.keys(url).length == 0 || JSON.stringify(url) == JSON.stringify({})){
-			res.status(404).send('ERROR: URL Not Found')
+			res.status(404).send('ERROR: URL Not Found'+"<form action='http://127.0.0.1:3000/api/''>"+
+    		"<input type='submit' value='Back'></form>")
 			return;
 		}
 		var string = ''
